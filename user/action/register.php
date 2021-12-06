@@ -1,7 +1,6 @@
 <?php
     session_start();
     require '../../common/validation.php';
-
     require '../../common/database.php';
 
     // パラメータ取得
@@ -53,6 +52,12 @@
             $statement->bindParam(':email', $user_email);
             $statement->bindParam(':password', $password);
             $statement->execute();
+
+            // ユーザー情報保持
+            $_SESSION['user'] = [
+                'name' => $user_name,
+                'id' => $database_handler->lastInsertId()
+            ];
         }
     } catch (Throwable $e) {
         echo $e->getMessage();
